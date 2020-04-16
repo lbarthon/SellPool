@@ -1,5 +1,6 @@
 package fr.loul.sellpool.commands;
 
+import fr.loul.sellpool.ItemPool;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,11 +20,12 @@ public class PoolCmd implements CommandExecutor {
 		
 		if (sender.hasPermission("sellpool.pool") || sender.hasPermission("sellpool.*") || sender.hasPermission("*")) {
 			Material m = p.getInventory().getItemInMainHand().getType();
-			if (SellPool.MapPool.containsKey(m)) {
+			if (SellPool.getInstance().getMapPool().containsKey(m)) {
+				ItemPool item = SellPool.getInstance().getMapPool().get(m);
 				p.sendMessage(SellPool.getCfgStr("Pool")
-						.replace("%pool%", String.valueOf((int) (SellPool.MapPool.get(m).getPool())))
-						.replace("%max%", String.valueOf(SellPool.MapPool.get(m).getMax()))
-						.replace("%item%", SellPool.MapPool.get(m).getName()));
+						.replace("%pool%", String.valueOf((int) item.getPool()))
+						.replace("%max%", String.valueOf(item.getMax()))
+						.replace("%item%", item.getName()));
 			} else {
 				p.sendMessage(SellPool.getCfgStr("ItemNotListed"));
 			}

@@ -24,22 +24,6 @@ public class ItemPool {
 		this.updatePrice();
 	}
 	
-	public void setMax(int m) {
-		max = m;
-	}
-	
-	public void setMaxPrice(int m) {
-		max_price = m;
-	}
-	
-	public void setMinPrice(int m) {
-		min_price = m;
-	}
-	
-	public void setPool(int m) {
-		actual = m;
-	}
-	
 	public void poolIncr(int nb) {
 		actual += nb;
 		if (actual > max) {
@@ -61,24 +45,12 @@ public class ItemPool {
 		return max;
 	}
 	
-	public float getMaxPrice() {
-		return max_price;
-	}
-	
-	public float getMinPrice() {
-		return min_price;
-	}
-	
 	public float getPool() {
 		return actual;
 	}
 	
 	public float getActualPrice() {
 		return price;
-	}
-	
-	public int getDecrTime() {
-		return decr;
 	}
 	
 	public String getName() {

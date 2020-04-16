@@ -1,5 +1,6 @@
 package fr.loul.sellpool.commands;
 
+import fr.loul.sellpool.ItemPool;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,9 +45,10 @@ public class SellCmd implements Listener {
 						if (nb > 36) break;
 						
 						Material m = i.getType();
-						if (SellPool.MapPool.containsKey(m)) {
+						if (SellPool.getInstance().getMapPool().containsKey(m)) {
 							sold++;
-							float pr = SellPool.MapPool.get(m).getActualPrice();
+							ItemPool item = SellPool.getInstance().getMapPool().get(m);
+							float pr = item.getActualPrice();
 							int pri = (int) (pr * 100);
 							float price = (float) pri / 100;
 							int nbitems = 0;
@@ -66,32 +68,32 @@ public class SellCmd implements Listener {
 								}
 							}
 							SellPool.getEconomy().depositPlayer(p, price * nbitems);
-							SellPool.MapPool.get(m).poolIncr(nbitems);
-							SellPool.MapPool.get(m).updatePrice();
+							item.poolIncr(nbitems);
+							item.updatePrice();
 							totalprice = totalprice + (nbitems * price);
 						}
 					}
-					if (sold > 0) p.sendMessage(SellPool.getCfgStr("SellAllSuccessfullySold").replace("%price%", String.valueOf(totalprice)));
-					else p.sendMessage(SellPool.getCfgStr("SellAllNothingToSell"));
+					if (sold > 0) {
+						p.sendMessage(SellPool.getCfgStr("SellAllSuccessfullySold").replace("%price%", String.valueOf(totalprice)));
+					} else {
+						p.sendMessage(SellPool.getCfgStr("SellAllNothingToSell"));
+					}
 					return;
 				}
 				
-				if (p.getInventory().getItemInMainHand() == null) {
+				if (
+						p.getInventory().getItemInMainHand() == null
+						|| p.getInventory().getItemInMainHand().getType() == null
+						|| p.getInventory().getItemInMainHand().getType().equals(Material.AIR)
+				) {
 					p.sendMessage(SellPool.getCfgStr("NoItemInHand"));
 					return;
 				}
-				if (p.getInventory().getItemInMainHand().getType() == null) {
-					p.sendMessage(SellPool.getCfgStr("NoItemInHand"));
-					return;
-				}
-				if (p.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-					p.sendMessage(SellPool.getCfgStr("NoItemInHand"));
-					return;
-				}
-				
+
 				Material m = p.getInventory().getItemInMainHand().getType();
-				if (SellPool.MapPool.containsKey(m)) {
-					float pr = SellPool.MapPool.get(m).getActualPrice();
+				if (SellPool.getInstance().getMapPool().containsKey(m)) {
+					ItemPool item = SellPool.getInstance().getMapPool().get(m);
+					float pr = item.getActualPrice();
 					int pri = (int) (pr * 100);
 					float price = (float) pri / 100;
 					int nbitems = 0;
@@ -111,12 +113,12 @@ public class SellCmd implements Listener {
 						}
 					}
 					SellPool.getEconomy().depositPlayer(p, price * nbitems);
-					SellPool.MapPool.get(m).poolIncr(nbitems);
-					SellPool.MapPool.get(m).updatePrice();
+					item.poolIncr(nbitems);
+					item.updatePrice();
 					p.sendMessage(SellPool.getCfgStr("SuccessfullySold")
 							.replace("%price%", String.valueOf(price * nbitems))
 							.replace("%amount%", String.valueOf(nbitems))
-							.replace("%item%", SellPool.MapPool.get(m).getName()));
+							.replace("%item%", item.getName()));
 				} else {
 					p.sendMessage(SellPool.getCfgStr("ItemNotListed"));
 				}

@@ -67,10 +67,11 @@ public class SellCmd implements Listener {
 									}
 								}
 							}
-							SellPool.getEconomy().depositPlayer(p, price * nbitems);
+							float rounded = Math.round(price * nbitems * 100) / 100F;
+							SellPool.getEconomy().depositPlayer(p, rounded);
 							item.poolIncr(nbitems);
 							item.updatePrice();
-							totalprice = totalprice + (nbitems * price);
+							totalprice += rounded;
 						}
 					}
 					if (sold > 0) {
@@ -112,11 +113,12 @@ public class SellCmd implements Listener {
 							}
 						}
 					}
-					SellPool.getEconomy().depositPlayer(p, price * nbitems);
+					float rounded = Math.round(price * nbitems * 100) / 100F;
+					SellPool.getEconomy().depositPlayer(p, rounded);
 					item.poolIncr(nbitems);
 					item.updatePrice();
 					p.sendMessage(SellPool.getCfgStr("SuccessfullySold")
-							.replace("%price%", String.valueOf(price * nbitems))
+							.replace("%price%", String.valueOf(rounded))
 							.replace("%amount%", String.valueOf(nbitems))
 							.replace("%item%", item.getName()));
 				} else {

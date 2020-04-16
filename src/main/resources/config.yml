@@ -1,0 +1,33 @@
+# SellPool plugin by Loul
+
+# Message configuration
+ConsoleCantSend: "&cError, this command can't be used by the console!"
+NoPermission: "&cYou can't do that!"
+ItemNotListed: "&cError, your item can't be sold."
+NoItemInHand: "&cDo you really want to sell air ?"
+SellAllNothingToSell: "&cYou have no item that can be sold in your inventory!"
+SuccessfullySold: "&aYou successfully sold %amount% of  %item% for %price%."
+SellAllSuccessfullySold : "&aAll the items sellable that u have in your inventory have been sold for %price%!"
+Worth: "&a%item% is worth $%price%"
+Pool: "&a%item% is at %pool% / %max% !"
+ErrorMessage: "&cError. You can only do /sell or /sell all !"
+
+# Items Configuration
+
+# Example Item
+items:
+  STONE:
+    pool_size: 500
+    max_price: 50.5
+    min_price: 20.2
+    actual: 0
+    decrease: 10
+    decr_amount: 5
+    name: "Stone"
+
+# And here you can do your items
+# The item names must be in caps, and names like in the Spigot Material list!
+# The actual line is the state of the pool, evolving from 0 to PoolSize. U'd rather don't touch it
+# The lines starting with # are here to help you, but you can delete them
+# Decrease time must be a multiple of 5
+# Just please don't put twice the same item, it'll crash :x

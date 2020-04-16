@@ -1,0 +1,12 @@
+main: fr.loul.sellpool.SellPool
+version: 1.0.0
+name: SellPool
+author: Loul
+
+commands:
+  worth:
+    default: true
+    usage: /worth
+  pool:
+    default: true
+    usage: /pool
